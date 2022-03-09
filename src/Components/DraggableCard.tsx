@@ -16,7 +16,7 @@ interface IDragabbleCardProps {
 
 function DraggableCard({ toDo, index }:IDragabbleCardProps ) {
     return(
-        <Draggable key={toDo} draggableId={toDo} index={index}>
+        <Draggable draggableId={toDo} index={index}>
         {/* key에 item의 index가 포함되면 안됨. 일반적으로 draggableId를 key로 사용  */}    
             {(magic) => (
                 <Card ref={magic.innerRef} {...magic.dragHandleProps} {...magic.draggableProps}>
