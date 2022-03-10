@@ -6,11 +6,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-  padding: 20px 10px;
   padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
   min-height: 300px;
+  overflow: hidden;
 `;
 
 const Title = styled.h2`
@@ -26,8 +26,9 @@ interface IAreaProps {
 }
 
 const Area = styled.div<IAreaProps>`
+  padding: 20px;
   background-color: ${(props) =>
-    props.isDraggingOver ? "#789395" : props.isDraggingFromThis ? "#D3E4CD" : "#ADC2A9"};
+    props.isDraggingOver ? "#789395" : props.isDraggingFromThis ? "#D3E4CD" : "transparent"};
   flex-grow: 1;
   transition: background-color 0.3s ease-in-out;
 `;
