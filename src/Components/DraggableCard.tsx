@@ -11,17 +11,18 @@ const Card = styled.div<{ isDragging: boolean }>`
 `;
 
 interface IDragabbleCardProps {
-  toDo: string;
-  index: number;
+    toDoId: number;
+    toDoText: string
+    index: number;
 }
 
-function DraggableCard({ toDo, index }:IDragabbleCardProps ) {
+function DraggableCard({ toDoId, toDoText, index }:IDragabbleCardProps ) {
     return(
-        <Draggable draggableId={toDo} index={index}>
+        <Draggable draggableId={toDoId + ""} index={index}>
         {/* key에 item의 index가 포함되면 안됨. 일반적으로 draggableId를 key로 사용  */}    
             {(magic, snapshot) => (
                 <Card isDragging={snapshot.isDragging} ref={magic.innerRef} {...magic.dragHandleProps} {...magic.draggableProps}>
-                    {toDo}
+                    {toDoText}
                 </Card>
             )}
         </Draggable>
