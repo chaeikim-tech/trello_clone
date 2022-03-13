@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
-import { ITodo } from '../atoms';
+import { ITodo, toDoState } from '../atoms';
+import { useSetRecoilState } from 'recoil';
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,8 +53,20 @@ interface IForm {
 }
 
 function Board({ toDos, boardId }: IBoardProps) {
+  const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
-  const onValid = ({ toDo }: IForm) => {setValue("toDo", "")};
+  const onValid = ({ toDo }: IForm) => {
+    const newToDo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    setToDos((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId]: [newToDo, ...allBoards[boardId]],
+      };
+    });
+    setValue("toDo", "")};
   return (
     <Wrapper>
         <Title>{boardId}</Title>
@@ -68,7 +81,7 @@ function Board({ toDos, boardId }: IBoardProps) {
           {(magic, info) => (
             <Area isDraggingOver={info.isDraggingOver} isDraggingFromThis={Boolean(info.draggingFromThisWith)} ref={magic.innerRef} {...magic.droppableProps}>
               {toDos.map((toDo, index) => (
-                <DragabbleCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} />
+                <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} />
               ))}
               {magic.placeholder}
               {/* 'magic.placeholder' Draggable을 드래그할 때 Droppable 리스트가 작아지는 것을 방지 */}
