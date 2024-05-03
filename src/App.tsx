@@ -34,9 +34,10 @@ function App() {
     if (destination?.droppableId === source.droppableId) {
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
+        const taskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
-        
+        boardCopy.splice(destination?.index, 0, taskObj);
+
         return {
           ...allBoards, [source.droppableId]: boardCopy,
         };
@@ -46,10 +47,11 @@ function App() {
     if (destination.droppableId !== source.droppableId) {
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
+        const taskObj = sourceBoard[source.index];
         const destinationBoard = [...allBoards[destination.droppableId]];
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, draggableId);
-        
+        destinationBoard.splice(destination?.index, 0, taskObj);
+
         return {
           ...allBoards,
           [source.droppableId]: sourceBoard,
@@ -57,11 +59,11 @@ function App() {
         };
       })
     }
-      
-   };
+
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-        <Wrapper>
+      <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
             <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
